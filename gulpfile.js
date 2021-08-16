@@ -6,6 +6,13 @@
  */
 // scss->css->min.css
 const gulp = require('gulp')
+
+gulp.task('hello', () => {
+    console.log('hello gulp')
+})
+
+
+
 const scss = require('gulp-scss')
 const minifyCSS = require('gulp-minify-css')
 const rename = require('gulp-rename')
@@ -76,7 +83,7 @@ gulp.task("watch", function(){
     gulp.watch("*.php", ['php']);
 })
 
-const connect = require("gulp-connect");
+/* const connect = require("gulp-connect");
 //启动临时服务器
 gulp.task("server", function(){
     connect.server({
@@ -86,4 +93,4 @@ gulp.task("server", function(){
     })
 })
 
-gulp.task("default", ['server', 'watch']);
+gulp.task("default", ['server', 'watch']); */

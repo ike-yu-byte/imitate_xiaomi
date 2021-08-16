@@ -56,6 +56,10 @@ ssh-keygen -t rsa -C  ike_yu@qq.com
 
 # 2.gulp搭建
 
+**node要求**：版本不高于12
+
+**gulp版本**：3.9.1
+
 ![](https://z3.ax1x.com/2021/08/16/f2fv60.png)
 
 已经准备好了如上所示框架  
@@ -165,13 +169,17 @@ npm view gulp versions
 
 查看所有版本号  
 
+```
+npm i -g gulp
+```
+
 ```npm
 npm install gulp@3.9.1 --save-dev
 ```
 
 ![](https://z3.ax1x.com/2021/08/16/f2hn0O.png)
 
-
+![](https://z3.ax1x.com/2021/08/17/fhpzcR.png)
 
 ## 2.3  安装插件  
 
@@ -181,11 +189,17 @@ npm i gulp-scss gulp-minify-css gulp-rename -D
 
 ![](https://z3.ax1x.com/2021/08/16/f2hJjP.png)
 
-#### 
+## 2.4  测试gulp任务
 
+```javascript
+const gulp = require('gulp')
 
+gulp.task('hello', () => {
+    console.log('hello gulp')
+})
+```
 
-
+![](https://z3.ax1x.com/2021/08/17/fh9GCQ.png)
 
 
 
