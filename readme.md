@@ -2,11 +2,37 @@
 
 # 1. 项目描述  
 
-**前端技术**：HTML+css+jQuery  
+## **前端技术**
 
-**后端技术**：PHP+MySQL  
+HTML+css+jQuery  
 
-**开发工具**：gulp+sass+require.js  
+## **后端技术**  
+
+PHP+MySQL  
+
+## **开发工具**
+
+gulp+sass+require.js  
+
+## **协同开发**
+
+gitee+GitHub  
+
+​	为了更安全的上传大文件，采用ssh方式上传 ，需要生成公钥 
+
+```git
+ssh-keygen -t rsa -C  ike_yu@qq.com
+```
+
+![](https://z3.ax1x.com/2021/08/17/fhSci4.png)
+
+![](https://z3.ax1x.com/2021/08/17/fhSRzR.png)
+
+![](https://z3.ax1x.com/2021/08/17/fhSodO.png)
+
+![](https://z3.ax1x.com/2021/08/17/fhSXQI.png)
+
+## 效果图
 
 ![](https://z3.ax1x.com/2021/08/16/f2WWrT.png)
 
@@ -155,7 +181,7 @@ npm i gulp-scss gulp-minify-css gulp-rename -D
 
 ![](https://z3.ax1x.com/2021/08/16/f2hJjP.png)
 
-#### 2.4  测试
+#### 
 
 
 
