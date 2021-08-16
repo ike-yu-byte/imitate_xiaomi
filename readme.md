@@ -201,15 +201,36 @@ gulp.task('hello', () => {
 
 ![](https://z3.ax1x.com/2021/08/17/fh9GCQ.png)
 
+## 2.5  nvm版本控制
 
+[GitHub地址](https://github.com/coreybutler/nvm-windows)
 
+[下载地址](https://github.com/coreybutler/nvm-windows/releases)
 
+![](https://z3.ax1x.com/2021/08/17/fh9aD0.png)
 
+![](https://z3.ax1x.com/2021/08/17/fhCuRJ.png)
 
+![](https://z3.ax1x.com/2021/08/17/fhCKz9.png)
 
+```JavaScript
+root: D:\software\nvm\nvm
+path: D:\software\nvm\node
+node_mirror: https://npm.taobao.org/mirrors/node/
+npm_mirror: https://npm.taobao.org/mirrors/npm/
+```
 
+切换镜像配置，以防有些包下载失败  
 
+```
+nvm install 11.15.0
+```
 
+安装指定版本的node
+
+![](https://z3.ax1x.com/2021/08/17/fhCls1.png)
+
+如上所示切换node，并在node环境下安装依赖和运行程序
 
 
 
