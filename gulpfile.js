@@ -1,96 +1,51 @@
 /* 
     第三方插件
-    gulp-scss
+    gulp-sass
     gulp-minify-css
     gulp-rename
+    均不指定版本，用最新版
  */
-// scss->css->min.css
+
+/* 引入gulp开发依赖 */
 const gulp = require('gulp')
+/* 引入gulp开发依赖 */
 
-gulp.task('hello', () => {
-    console.log('hello gulp')
-})
-
-
-
-const scss = require('gulp-scss')
+/* 引入插件依赖 */
+var scss = require('gulp-sass')(require('sass'))
+// 注意：gulp-sass必须配合gulp-sass一起使用
 const minifyCSS = require('gulp-minify-css')
 const rename = require('gulp-rename')
+/* 引入插件依赖 */
 
+/* 任务：index.scss->index.css->index.min.css */
 gulp.task('scss', function(){
     return gulp.src('stylesheet/index.scss')
     .pipe(scss())
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('dist/css/')) // 可以省略，不然会生成一个index.css文件
     .pipe(minifyCSS())
     .pipe(rename('index.min.css'))
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('dist/css/'))
 })
+/* 任务：index.scss->index.css->index.min.css */
 
-// 批量处理
-
+/* 批量处理scss */
 gulp.task('scssAll',function(){
-    return gulp.src('stylesheet/*.scss')
-    .pipe(scss())
-    .pipe(gulp.dest('dist/css'))
+    return gulp.src('./stylesheet/*.scss')
+    .pipe(scss({
+        outputStyle: 'compressed'
+    }))
+    // .pipe(gulp.dest('./dist/css'))
+    // .pipe(minifyCSS())
+    // .pipe(rename({
+    //     suffix: "min"
+    // }) // 必须注释，否则报错
+    .pipe(gulp.dest('dist/css/'))
+    // 注意：路径加不加'./'和'/'都无所谓
 })
+/* 批量处理scss */
 
 gulp.task("scripts", function(){
     return gulp.src(["*.js", "!gulpfile.js"])
     .pipe(gulp.dest("dist/js"))
     .pipe(connect.reload());
 })
-
-gulp.task("copy-html", function(){
-    return gulp.src("*.html")
-    .pipe(gulp.dest("dist/"))
-    .pipe(connect.reload());
-})
-
-gulp.task("data", function(){
-    return gulp.src(["*.json", "!package.json"])
-    .pipe(gulp.dest("dist/data"))
-    .pipe(connect.reload());
-})
-
-//处理图片
-gulp.task("images", function(){
-    return gulp.src("images/**/*")
-    .pipe(gulp.dest("dist/images"))
-    .pipe(connect.reload());
-})
-
-//设置一个专门拷贝php数据的任务
-gulp.task("php", function(){
-    return gulp.src("*.php")
-    .pipe(gulp.dest("dist/php"))
-    .pipe(connect.reload());
-})
-
-gulp.task("build", ["scss", "scripts", "copy-html", "data", "scssAll", "images", "php"], function(){
-    console.log("项目建立成功");
-})
-
-/* 
-    建立监听
-*/
-gulp.task("watch", function(){
-    gulp.watch("stylesheet/index.scss", ["scss"]);
-    gulp.watch(["*.js", "!gulpfile.js"], ['scripts']);
-    gulp.watch("*.html", ['copy-html']);
-    gulp.watch(["*.json", "!package.json"], ['data']);
-    gulp.watch(["stylesheet/*.scss"], ['scssAll']);
-    gulp.watch("images/**/*", ['images']);
-    gulp.watch("*.php", ['php']);
-})
-
-/* const connect = require("gulp-connect");
-//启动临时服务器
-gulp.task("server", function(){
-    connect.server({
-        root: "dist",
-        port: 8887,
-        livereload: true
-    })
-})
-
-gulp.task("default", ['server', 'watch']); */

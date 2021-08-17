@@ -12,7 +12,7 @@ PHP+MySQL
 
 ## **开发工具**
 
-gulp+sass+require.js  
+gulp3+scss+require.js  
 
 ## **协同开发**
 
@@ -173,21 +173,35 @@ npm view gulp versions
 npm i -g gulp
 ```
 
+​	全局安装gulp命令行
+
 ```npm
 npm install gulp@3.9.1 --save-dev
 ```
 
-![](https://z3.ax1x.com/2021/08/16/f2hn0O.png)
+​	安装gulp开发依赖
+
+![](https://z3.ax1x.com/2021/08/18/fI3wrR.png)
 
 ![](https://z3.ax1x.com/2021/08/17/fhpzcR.png)
 
 ## 2.3  安装插件  
 
+**gulp-sass**：将scss转成css，必须同时安装sass插件
+
+**gulp-minify-css**：将css压缩  
+
+**gulp-rename**：文件重命名
+
 ```
 npm i gulp-scss gulp-minify-css gulp-rename -D 
 ```
 
-![](https://z3.ax1x.com/2021/08/16/f2hJjP.png)
+![](https://z3.ax1x.com/2021/08/18/fI3cGD.png)
+
+经测试gulp-scss在win10无法使用，故改成了gulp-sass@5.0.0
+
+
 
 ## 2.4  测试gulp任务
 
@@ -201,7 +215,7 @@ gulp.task('hello', () => {
 
 ![](https://z3.ax1x.com/2021/08/17/fh9GCQ.png)
 
-## 2.5  nvm版本控制
+## 2.5  nvm版本控制(扩展)
 
 [GitHub地址](https://github.com/coreybutler/nvm-windows)
 
@@ -231,6 +245,122 @@ nvm install 11.15.0
 ![](https://z3.ax1x.com/2021/08/17/fhCls1.png)
 
 如上所示切换node，并在node环境下安装依赖和运行程序
+
+## 2.6  批量处理文件
+
+### 2.6.1  scss
+
+**方式一**：利用minifycss压缩时
+
+```JavaScript
+/* 引入gulp开发依赖 */
+const gulp = require('gulp')
+/* 引入gulp开发依赖 */
+
+/* 引入插件依赖 */
+var scss = require('gulp-sass')(require('sass'))
+// 注意：gulp-sass必须配合gulp-sass一起使用
+const minifyCSS = require('gulp-minify-css')
+const rename = require('gulp-rename')
+/* 引入插件依赖 */
+
+/* 批量处理scss */
+gulp.task('scssAll',function(){
+    return gulp.src('./stylesheet/*.scss')
+    .pipe(scss())
+    .pipe(gulp.dest('./dist/css'))
+    .pipe(minifyCSS())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('dist/css/'))
+    // 注意：路径加不加'./'和'/'都无所谓
+})
+/* 批量处理scss */
+```
+
+![](https://z3.ax1x.com/2021/08/18/fIYUFx.png)
+
+
+
+**注意**：rename参数是个回调函数时  
+
+```JavaScript
+.pipe(rename(function(path){
+   console.log(path)
+}))
+```
+
+![](https://z3.ax1x.com/2021/08/18/fIYdfK.png)
+
+**注意**：rename参数为对象时，可以有以下属性
+
+```JavaScript
+{
+    dirname: "main/text/ciao",
+    basename: "aloha",
+    prefix: "bonjour-",
+    suffix: "-hola",
+    extname: ".md"
+}
+```
+
+**方式二**：利用sass压缩时  
+
+```javascript
+/* 引入gulp开发依赖 */
+const gulp = require('gulp')
+/* 引入gulp开发依赖 */
+
+/* 引入插件依赖 */
+var scss = require('gulp-sass')(require('sass'))
+// 注意：gulp-sass必须配合gulp-sass一起使用
+const minifyCSS = require('gulp-minify-css')
+const rename = require('gulp-rename')
+/* 引入插件依赖 */
+
+gulp.task('scssAll',function(){
+    return gulp.src('./stylesheet/*.scss')
+    .pipe(scss({
+        outputStyle: 'compressed'
+    }))
+    // .pipe(gulp.dest('./dist/css'))
+    // .pipe(minifyCSS())
+    // .pipe(rename({
+    //     suffix: "min"
+    // }) // 必须注释，否则报错
+    .pipe(gulp.dest('dist/css/'))
+    // 注意：路径加不加'./'和'/'都无所谓
+})
+```
+
+![](https://z3.ax1x.com/2021/08/18/fIYIXQ.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
