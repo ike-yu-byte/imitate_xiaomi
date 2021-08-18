@@ -1,4 +1,6 @@
-# 原生开发-仿小米网站
+# 原生开发-仿小米网站  
+
+[![](https://img.shields.io/badge/js%E5%BA%93-jQuery-blue)](https://jquery.cuishifeng.cn/)	[![](https://img.shields.io/badge/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7-gulp-important)](https://www.gulpjs.com.cn/)
 
 # 1. 项目描述  
 
@@ -194,16 +196,16 @@ npm install gulp@3.9.1 --save-dev
 **gulp-rename**：文件重命名
 
 ```
-npm i gulp-scss gulp-minify-css gulp-rename -D 
+npm i gulp-sass sass gulp-minify-css gulp-rename -D 
 ```
 
-![](https://z3.ax1x.com/2021/08/18/fI3cGD.png)
-
-经测试gulp-scss在win10无法使用，故改成了gulp-sass@5.0.0
+![](https://z3.ax1x.com/2021/08/19/f7DLWQ.png)
 
 
 
-## 2.4  测试gulp任务
+## 2.4  测试gulp任务  
+
+新建一个gulpfile.js文件  
 
 ```javascript
 const gulp = require('gulp')
@@ -214,6 +216,8 @@ gulp.task('hello', () => {
 ```
 
 ![](https://z3.ax1x.com/2021/08/17/fh9GCQ.png)
+
+运行后结果如上所示
 
 ## 2.5  nvm版本控制(扩展)
 
@@ -248,7 +252,9 @@ nvm install 11.15.0
 
 ## 2.6  批量处理文件
 
-### 2.6.1  scss
+以功能为例,其它看gulpfile.js文件    
+
+### 2.6.1  压缩css
 
 **方式一**：利用minifycss压缩时
 
@@ -336,33 +342,102 @@ gulp.task('scssAll',function(){
 
 
 
+### 2.6.2  复制文件
+
+```javascript
+/*批量复制json文件 */
+gulp.task('json', () => {
+    return gulp.src(['*.json','!package.json','!package-lock.json'])
+    .pipe(gulp.dest('dist/data'))
+})
+/* 批量复制json文件 */
+```
+
+其它类型文件处理和这类似，故不再举例  
+
+![](https://z3.ax1x.com/2021/08/19/f7yoe1.png)
+
+### 2.6.3  执行多任务
+
+```javascript
+/* 一次执行多个任务 */
+gulp.task('build', ['scssAll', 'scripts', 'html', 'json', 'images'], () => {
+    console.log('项目建立成功')
+})
+/* 一次执行多个任务 */
+```
+
+![](https://z3.ax1x.com/2021/08/19/f7yTdx.png)
 
 
 
+### 2.6.4  监听文件变化
 
+```JavaScript
+/* 监听文件变化 */
+gulp.task('watch', () => {
+    // watch('文件匹配规则', [option可选项], [任务])  
+    gulp.watch('stylesheet/index.scss', ['scss'])
+    gulp.watch('stylesheet/*.scss', ['scssAll'])
+    gulp.watch(["*.js", "!gulpfile.js"], ['scripts'])
+    gulp.watch('*.html', ['html'])
+    gulp.watch(['*.json','!package.json','!package-lock.json'], ['json'])
+    gulp.watch('images/**/*', ['images'])
+})
+/* 监听文件变化 */
+```
 
+![](https://z3.ax1x.com/2021/08/19/f76JX9.gif)
 
+**注意**：要文件保存后才会监听到变化哟
 
+## 2.7  本地服务  
 
+gulp-webserver  
 
+```
+npm install --save-dev gulp-connect
+```
 
+```JavaScript
+/* 启动一个服务 */
+var connect = require('gulp-connect')
+gulp.task('server', () => {
+    connect.server({
+        root: 'dist/html', // 默认显示dist/html/index.html文件
+        port: 8888,
+        livereload: true
+    })
+})
+/* 启动一个服务 */
+```
 
+![](https://z3.ax1x.com/2021/08/19/f7cdDs.png)
 
+## 2.8  服务刷新  
 
+1. 默认任务，开启本地服务同时监听文件变化
 
+```JavaScript
+/* 默认任务 */
+gulp.task('default', ['watch','server']) // 默认任务直接通过gulp运行
+/* 默认任务 */
+```
 
+2. 实时刷新服务  
 
+```javascript
+/* 批量处理图片 */
+gulp.task('images', () => {
+    return gulp.src('images/**/*')
+    // 'images/*/*' 为images下的所有文件夹及文件夹里面的所有，是错误写法
+    .pipe(gulp.dest('dist/images'))
+    .pipe(connect.reload())
+})
+/* 批量处理图片 */
+```
 
+每个任务都如上所示“刷新服务”  
 
-
-
-
-
-
-
-
-
-
-
-
+![](https://z3.ax1x.com/2021/08/19/f7cgv4.png)
 
