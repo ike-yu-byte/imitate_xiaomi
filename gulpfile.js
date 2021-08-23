@@ -53,7 +53,7 @@ gulp.task("scripts", function(){
 /* 批量复制html文件 */
 gulp.task('html', () => {
     return gulp.src('*.html')
-    .pipe(gulp.dest('dist/html'))
+    .pipe(gulp.dest('dist'))
     .pipe(connect.reload())
 })
 /* 批量复制html文件 */

@@ -276,7 +276,7 @@ gulp.task('scssAll',function(){
     .pipe(scss())
     .pipe(gulp.dest('./dist/css'))
     .pipe(minifyCSS())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({suffix: '.min'})) //	后缀 
     .pipe(gulp.dest('dist/css/'))
     // 注意：路径加不加'./'和'/'都无所谓
 })
@@ -373,6 +373,8 @@ gulp.task('build', ['scssAll', 'scripts', 'html', 'json', 'images'], () => {
 
 ### 2.6.4  监听文件变化
 
+这里通过一个任务来监听多种文件变化  
+
 ```JavaScript
 /* 监听文件变化 */
 gulp.task('watch', () => {
@@ -393,7 +395,7 @@ gulp.task('watch', () => {
 
 ## 2.7  本地服务  
 
-gulp-webserver  
+gulp-connect  
 
 ```
 npm install --save-dev gulp-connect
@@ -437,7 +439,85 @@ gulp.task('images', () => {
 /* 批量处理图片 */
 ```
 
-每个任务都如上所示“刷新服务”  
+每个任务都如上所示“刷新服务”，即加上connect.reload()  
 
 ![](https://z3.ax1x.com/2021/08/19/f7cgv4.png)
+
+## 2.9  默认任务  
+
+```JavaScript
+/* 默认任务 */
+gulp.task('default', ['watch','server']) // 默认任务直接通过gulp运行
+/* 默认任务 */
+```
+
+然后向2.8那样使用  
+
+## 2.10  gulp API  
+
+
+
+# 3.小米项目
+
+![](https://z3.ax1x.com/2021/08/24/hi0l34.png)
+
+项目准备了以上文件，其中require.js是第三方库  
+
+## 模块开发
+
+借助requireJs第三方库，基于AMD开发规范    
+
+[requireJs使用教程](https://blog.csdn.net/c11073138/article/details/81043376?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522162974426316780261933555%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=162974426316780261933555&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-81043376.first_rank_v2_pc_rank_v29&utm_term=requirejs%E4%BD%BF%E7%94%A8&spm=1018.2226.3001.4187)
+
+**例1**：  测试入口文件 
+
+```html
+<!-- 模块开发 -->
+<!-- defer:ie下异步加载  async="true"谷歌火狐下异步加载 -->
+<!-- data-main指定js程序入口文件,也叫主模块，其中main.js的文件后缀可去掉 -->
+<script src = 'js/require.js' defer async='true' data-main='js/main.js'></script>
+```
+
+![](https://z3.ax1x.com/2021/08/24/hi0gVP.png)
+
+![](https://z3.ax1x.com/2021/08/24/hi06bt.png)
+
+![](https://z3.ax1x.com/2021/08/24/hi0R58.png)
+
+以后相关js代码写在main.js当中，或者引入到main.js当中  
+
+**例2**：配置项目依赖  
+
+```JavaScript
+/* 
+    配置当前项目用到哪些模块
+    遵从AMD规范
+    所有js文件后缀可省略
+ */
+require.config({
+    paths:{ // 各模块路径
+        "jquery": "./jquery-1.11.3",
+        "jquery-cookie": "./jquery.cookie.js"
+    },
+    shim: { // 设置依赖关系
+        "jquery-cookie": ["jquery"], // jquery-cookie依赖jQuery，进而先加载jQuery
+    }
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
